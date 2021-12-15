@@ -20,7 +20,8 @@ namespace WebApi.Services
                 LastName = registration.LastName,
                 Email = registration.Email,
                 Birthday = registration.Birthday,
-                Password = registration.Password
+                Password = registration.Password,
+                Created = DateTime.UtcNow,
             };
 
             return _userDA.CreateUser(newUser);
@@ -29,7 +30,7 @@ namespace WebApi.Services
         public bool SignIn(UserCredentials credentials)
         {
             var match = _userDA.FindUser(credentials.Email);
-            
+
             if (match?.Password == credentials.Password)
             {
                 return true;

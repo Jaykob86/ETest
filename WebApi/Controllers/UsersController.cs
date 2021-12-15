@@ -5,19 +5,17 @@ using WebApi.Models;
 namespace WebApi.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
-    public class AuthController : ControllerBase
+    [Route("api/[controller]")]
+    public class UsersController : ControllerBase
     {
-        private readonly ILogger<AuthController> _logger;
         private readonly IUserService _userService;
 
-        public AuthController(IUserService userService, ILogger<AuthController> logger)
+        public UsersController(IUserService userService)
         {
-            _logger = logger;
             _userService = userService;
         }
 
-        [HttpPost("SignUp")]
+        [HttpPost]
         public ActionResult<User> SignUp(UserRegistration registration)
         {
             if(!ModelState.IsValid) return BadRequest(ModelState);
@@ -25,8 +23,8 @@ namespace WebApi.Controllers
             return Ok(user);
         }
 
-        [HttpPost("SignIn")]
-        public ActionResult<bool> SignIn(UserCredentials credentials)
+        [HttpPost("Login")]
+        public ActionResult<bool> Login(UserCredentials credentials)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
             var isSuccess = _userService.SignIn(credentials);

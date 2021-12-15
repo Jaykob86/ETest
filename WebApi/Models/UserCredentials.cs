@@ -1,9 +1,7 @@
-﻿namespace WebApi.Models
+﻿namespace WebApi.Models;
+public class UserCredentials
 {
-    public class UserCredentials
-    {
-        public string Email { get; set; }
-        public string Password { get; set; }
+    public string Email { get; set; }
+    public string Password { get; set; }
 
-    }
 }

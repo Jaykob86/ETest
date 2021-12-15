@@ -1,7 +1,9 @@
 
 
 using Microsoft.EntityFrameworkCore;
+using WebApi.Abstractions;
 using WebApi.DataAccess;
+using WebApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +14,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>(options =>
 options.UseSqlite($"Data Source=UserDB.db;"));
+
+builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddTransient<IUserDA, UserDA>();
 
 var app = builder.Build();
 
