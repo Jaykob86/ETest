@@ -2,26 +2,45 @@
   <div>
     <div class="container">
       <div class="row">
-        <div class="col-md-6 col-md-offset-3">
-          <h1>{{ title }}</h1>
-          <hr />
-          <v-card>
+        <div class="col-md-8 offset-md-2">
+          <v-card min-height="500px">
+            <v-card-title class="secondary px-0 pb-0 pt-2 mb-5" flat>
+              <v-flex xs12 class="text-center display-2 primary--text my-5">
+                Welcome!
+              </v-flex>
+              <v-tabs
+                v-model="tab"
+                centered
+                icons-and-text
+                fixed-tabs
+                dark
+                background-color="secondary"
+              >
+                <v-tab key="registerForm">
+                  <v-layout class="text-centered column" justify-end>
+                    <v-icon x-large color="primary">mdi-account-check</v-icon>
+                    <span class="primary--text">Sign Up</span>
+                  </v-layout>
+                </v-tab>
+                <v-tab key="loginForm">
+                  <v-layout class="text-centered column" justify-end>
+                    <v-icon x-large color="primary">mdi-login-variant</v-icon>
+                    <span class="primary--text">Sign In</span>
+                  </v-layout>
+                </v-tab>
+              </v-tabs>
+            </v-card-title>
+
             <v-card-text>
-              <v-form ref="form">
-                <v-text-field
-                  v-model="form.email"
-                  label="Email"
-                  type="email"
-                ></v-text-field>
-                <v-text-field
-                  v-model="form.password"
-                  label="Password"
-                  type="password"
-                ></v-text-field>
-                <v-btn color="primary" type="submit" @click="login"
-                  >Login</v-btn
-                >
-              </v-form>
+              <v-tabs-items v-model="tab" class="pa-5">
+                <v-tab-item>
+                  <RegistrationForm @userExists="tab = 1" />
+                </v-tab-item>
+
+                <v-tab-item>
+                  <LoginForm />
+                </v-tab-item>
+              </v-tabs-items>
             </v-card-text>
           </v-card>
         </div>
@@ -31,31 +50,16 @@
 </template>
 
 <script lang="ts">
-import UserService from "@/services/user-service";
 import Vue from "vue";
+import RegistrationForm from "@/components/RegistrationForm.vue";
+import LoginForm from "@/components/LoginForm.vue";
 
 export default Vue.extend({
-  name: "Login",
   data() {
     return {
-      title: "Login",
-      form: {
-        email: "",
-        password: "",
-      },
+      tab: 1,
     };
   },
-  methods: {
-    async login() {
-      // @ts-expect-error
-      if (this.$refs.form.validate()) {
-        const user = await UserService.login(
-          this.form.email,
-          this.form.password
-        );
-        console.log({ user });
-      }
-    },
-  },
+  components: { RegistrationForm, LoginForm },
 });
 </script>

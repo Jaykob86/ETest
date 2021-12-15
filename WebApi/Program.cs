@@ -5,6 +5,8 @@ using WebApi.Abstractions;
 using WebApi.DataAccess;
 using WebApi.Services;
 
+var DevAllowedOriginsPolicyName = "_devAllowedOriginsPolicyName";
+
 var builder = WebApplication.CreateBuilder(args);
 
 
@@ -18,6 +20,18 @@ options.UseSqlite($"Data Source=UserDB.db;"));
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IUserDA, UserDA>();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: DevAllowedOriginsPolicyName,
+                      builder =>
+                      {
+                          builder.WithOrigins("https://localhost:5002")
+                            .AllowAnyHeader()
+                            .AllowAnyMethod()
+                            .AllowCredentials();
+                      });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -28,6 +42,11 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseCors(DevAllowedOriginsPolicyName);
+}
 
 app.UseAuthentication();
 app.UseAuthorization();

@@ -19,6 +19,10 @@ namespace WebApi.Controllers
         public ActionResult<User> SignUp(UserRegistration registration)
         {
             if(!ModelState.IsValid) return BadRequest(ModelState);
+            if(_userService.DoesUserWithEmailExist(registration.Email))
+            {
+                return BadRequest($"User with email {registration.Email} already exists. Please sign in.");
+            }
             var user = _userService.Register(registration);
             return Ok(user);
         }
@@ -30,7 +34,7 @@ namespace WebApi.Controllers
             var isSuccess = _userService.SignIn(credentials);
             return isSuccess == true 
                 ? Ok(true) 
-                : BadRequest();
+                : BadRequest("Login failed");
         }
     }
 }
