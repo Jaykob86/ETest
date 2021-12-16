@@ -10,6 +10,7 @@ Vue.config.productionTip = false;
 
 Vue.use(Toast, {
   transition: "Vue-Toastification__bounce",
+  position: "bottom-right",
   maxToasts: 20,
   newestOnTop: true,
 });

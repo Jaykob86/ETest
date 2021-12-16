@@ -16,7 +16,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPost]
-        public ActionResult<User> SignUp(UserRegistration registration)
+        public ActionResult<UserDto> SignUp(UserRegistration registration)
         {
             if(!ModelState.IsValid) return BadRequest(ModelState);
             if(_userService.DoesUserWithEmailExist(registration.Email))
@@ -28,13 +28,13 @@ namespace WebApi.Controllers
         }
 
         [HttpPost("Login")]
-        public ActionResult<bool> Login(UserCredentials credentials)
+        public ActionResult<UserDto> Login(UserCredentials credentials)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
-            var isSuccess = _userService.SignIn(credentials);
-            return isSuccess == true 
-                ? Ok(true) 
-                : BadRequest("Login failed");
+            var user = _userService.SignIn(credentials);
+            return user != null
+                ? Ok(user) 
+                : Unauthorized("Login failed");
         }
     }
 }

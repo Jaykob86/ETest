@@ -4,8 +4,8 @@ namespace WebApi.Abstractions
 {
     public interface IUserService
     {
-        User Register(UserRegistration registration);
-        bool SignIn(UserCredentials credentials);
+        UserDto Register(UserRegistration registration);
+        UserDto SignIn(UserCredentials credentials);
         bool DoesUserWithEmailExist(string email);
     }
 }

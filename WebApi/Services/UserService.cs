@@ -12,7 +12,7 @@ namespace WebApi.Services
             _userDA = userDA;
         }
 
-        public User Register(UserRegistration registration)
+        public UserDto Register(UserRegistration registration)
         {
             var newUser = new User
             {
@@ -24,24 +24,40 @@ namespace WebApi.Services
                 Created = DateTime.UtcNow,
             };
 
-            return _userDA.CreateUser(newUser);
+            var user = _userDA.CreateUser(newUser);
+
+            return TranslateToDto(user);
         }
 
-        public bool SignIn(UserCredentials credentials)
+        public UserDto SignIn(UserCredentials credentials)
         {
             var match = _userDA.FindUser(credentials.Email);
 
             if (match?.Password == credentials.Password)
             {
-                return true;
+                return TranslateToDto(match);
             }
 
-            return false;
+            return null;
         }
 
         public bool DoesUserWithEmailExist(string email)
         {
             return _userDA.FindUser(email) != null;
+        }
+
+        private UserDto TranslateToDto(User user)
+        {
+            if (user == null) return null;
+
+            return new UserDto
+            {
+                Id = user.Id,
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Birthday = user.Birthday
+            };
         }
     }
 }

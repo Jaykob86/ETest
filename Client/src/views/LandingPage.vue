@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div class="container">
+    <div class="container mt-5">
       <div class="row">
         <div class="col-md-8 offset-md-2">
-          <v-card min-height="500px">
+          <v-card :loading="isLoading" min-height="500px">
             <v-card-title class="secondary px-0 pb-0 pt-2 mb-5" flat>
               <v-flex xs12 class="text-center display-2 primary--text my-5">
                 Welcome!
@@ -12,7 +12,7 @@
                 v-model="tab"
                 centered
                 icons-and-text
-                fixed-tabs
+                grow
                 dark
                 background-color="secondary"
               >
@@ -34,14 +34,27 @@
             <v-card-text>
               <v-tabs-items v-model="tab" class="pa-5">
                 <v-tab-item>
-                  <RegistrationForm @userExists="tab = 1" />
+                  <RegistrationForm
+                    @userExists="tab = 1"
+                    @signedUp="tab = 1"
+                    @isLoading="isLoading = $event"
+                  />
                 </v-tab-item>
 
                 <v-tab-item>
-                  <LoginForm />
+                  <LoginForm
+                    @userLoggedIn="$emit('userLoggedIn', $event)"
+                    @isLoading="isLoading = $event"
+                  />
                 </v-tab-item>
               </v-tabs-items>
             </v-card-text>
+            <v-overlay
+              v-if="isLoading"
+              absolute
+              color="white"
+              opacity="0.5"
+            ></v-overlay>
           </v-card>
         </div>
       </div>
@@ -58,6 +71,7 @@ export default Vue.extend({
   data() {
     return {
       tab: 1,
+      isLoading: false,
     };
   },
   components: { RegistrationForm, LoginForm },

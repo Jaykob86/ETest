@@ -14,6 +14,7 @@ namespace WebApi.DataAccess
         public User CreateUser(User user)
         {
             _context.Users.Add(user);
+            _context.SaveChanges();
             return user;
         }
 

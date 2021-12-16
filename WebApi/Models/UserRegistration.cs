@@ -2,7 +2,7 @@
 
 namespace WebApi.Models;
 
-public class UserRegistration
+public class UserRegistration : IValidatableObject
 {
     [Required]
     [StringLength(50)]
@@ -18,4 +18,10 @@ public class UserRegistration
     [Required]
     [StringLength(30, MinimumLength = 6)]
     public string Password { get; set; }
+
+    public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+    {
+        if(Birthday == DateTime.MinValue) yield return new ValidationResult("Birthday date is required");
+        if(Birthday.Year > DateTime.UtcNow.Year) yield return new ValidationResult("Birthday cannot be in future");
+    }
 }
