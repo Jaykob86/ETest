@@ -13,7 +13,6 @@ public class UserRegistration : IValidatableObject
     [Required]
     [EmailAddress]
     public string Email { get; set; }
-    [Required]
     public DateTime Birthday { get; set; }
     [Required]
     [StringLength(30, MinimumLength = 6)]
