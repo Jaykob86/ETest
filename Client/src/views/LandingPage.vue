@@ -15,6 +15,7 @@
                 grow
                 dark
                 background-color="secondary"
+                slider-color="primary"
               >
                 <v-tab key="registerForm">
                   <v-layout class="text-centered column" justify-end>

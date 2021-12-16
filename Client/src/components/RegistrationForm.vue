@@ -1,6 +1,7 @@
 <template>
   <div>
-    <v-form ref="form">
+    <h1>Create account</h1>
+    <v-form ref="form" class="mt-5">
       <v-text-field
         v-model="form.email"
         prepend-icon="mdi-email"

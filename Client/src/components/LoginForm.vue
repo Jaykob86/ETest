@@ -1,6 +1,7 @@
 <template>
   <div>
-    <v-form ref="form">
+    <h1>Login</h1>
+    <v-form ref="form" class="mt-5">
       <v-text-field
         v-model="form.email"
         prepend-icon="mdi-email"
@@ -19,7 +20,7 @@
         autocomplete="current-password"
       ></v-text-field>
       <v-btn color="primary" type="button" @click="login" class="mt-5"
-        >Login</v-btn
+        >Continue</v-btn
       >
     </v-form>
   </div>

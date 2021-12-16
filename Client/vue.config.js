@@ -28,8 +28,8 @@ module.exports = {
       cert: fs.readFileSync(certFilePath),
     },
     proxy: {
-      "^/Auth": {
-        target: "https://localhost:5001/",
+      "^api/": {
+        target: "https://localhost:5001/api/",
       },
     },
     port: 5002,
